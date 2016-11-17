@@ -1,0 +1,4 @@
+windows:
+  - {name: 'chat', command: 'weechat-curses'}
+  - {name: 'torrent', command: 'rtorrent'}
+  - {name: 'monitoring', command: 'htop'}

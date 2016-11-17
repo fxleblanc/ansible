@@ -1,5 +1,6 @@
 - hosts: vps2
   tasks:
+    - include_vars: windows.yml
     - name: Kill tmux session
       command: /usr/bin/tmux kill-session
     - name: Update packages
@@ -10,7 +11,4 @@
       command: /usr/bin/tmux new-session -d
     - name: Start tmux windows
       command: /usr/bin/tmux new-window -n {{item.name}} '{{item.command}}'
-      with_items:
-        - {name: 'chat', command: 'weechat-curses'}
-        - {name: 'torrent', command: 'rtorrent'}
-        - {name: 'monitoring', command: 'htop'}
+      with_items: "{{windows}}"
