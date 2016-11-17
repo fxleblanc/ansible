@@ -1,5 +1,8 @@
 [vps2]
 vps2
 
+[vps1]
+vps1
+
 [local]
 localhost ansible_connection=local
