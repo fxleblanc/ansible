@@ -1,0 +1,16 @@
+- hosts: vps2
+  tasks:
+    - name: Kill tmux session
+      command: /usr/bin/tmux kill-session
+    - name: Update packages
+      apt:
+        upgrade: dist
+      become: true
+    - name: Start tmux session
+      command: /usr/bin/tmux new-session -d
+    - name: Start tmux windows
+      command: /usr/bin/tmux new-window -n {{item.name}} '{{item.command}}'
+      with_items:
+        - {name: 'chat', command: 'weechat-curses'}
+        - {name: 'torrent', command: 'rtorrent'}
+        - {name: 'monitoring', command: 'htop'}
