@@ -1,0 +1,4 @@
+- hosts: cloud
+  become: true
+  roles:
+    - docker
