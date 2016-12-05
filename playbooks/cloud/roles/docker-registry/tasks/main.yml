@@ -1,0 +1,10 @@
+- name: Install docker-py
+  pip:
+    name: docker-py
+- name: Start the container
+  docker_container:
+    name: registry
+    image: registry
+    state: started
+    ports:
+      - "5000:5000"
