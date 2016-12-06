@@ -3,3 +3,4 @@
   roles:
     - docker
     - docker-registry
+    - { role: rsync-vps, remote_location: 168.235.64.110 }

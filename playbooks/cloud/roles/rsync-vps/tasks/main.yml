@@ -1,0 +1,89 @@
+- include_vars:
+    file: ssh.yml
+    name: ssh_config_files
+  tags:
+    - ssh
+- name: Create ssh directory
+  file:
+    path: /etc/rsync-vps/ssh
+    state: directory
+    mode: 0755
+    owner: 1000
+    group: 1000
+  tags:
+    - ssh
+- name: Copy private key
+  copy:
+    dest={{ ssh_config_files.private_key.dest }}
+    content={{ ssh_config_files.private_key.content }}
+    owner=1000
+    group=1000
+    mode=0700
+  tags:
+    - ssh
+- name: Copy public key
+  copy:
+    dest={{ ssh_config_files.public_key.dest }}
+    content={{ ssh_config_files.public_key.content }}
+    owner=1000
+    group=1000
+    mode=0700
+  tags:
+    - ssh
+- name: Copy ssh config
+  template:
+    src: config.j2
+    dest: /etc/rsync-vps/ssh/config
+    owner: 1000
+    group: 1000
+  tags:
+    - ssh
+- name: Create cron directory
+  file:
+    path: /etc/rsync-vps/cron
+    state: directory
+    mode: 0755
+    owner: 1000
+    group: 1000
+  tags:
+    - cron
+- name: Copy cron file
+  template:
+    src: sync.j2
+    dest: /etc/rsync-vps/cron/sync
+    owner: 1000
+    group: 1000
+  tags:
+    - cron
+- name: Create data directory
+  file:
+    path: /var/data
+    state: directory
+    mode: 0755
+    owner: 1000
+    group: 1000
+  tags:
+    - data
+- name: Clone rsync-vps docker image
+  git:
+    repo: 'https://github.com/fxleblanc/rsync-vps'
+    dest: /tmp/rsync-vps
+  tags:
+    - clone
+- name: Build the Docker image
+  docker_image:
+    name: fxleblanc/rsync-vps
+    path: /tmp/rsync-vps
+    tag: 1.0
+  tags:
+    - image
+- name: Start the container
+  docker_container:
+    name: rsync-vps
+    image: fxleblanc/rsync-vps:1.0
+    volumes:
+      - /etc/rsync-vps/ssh:/home/fxleblanc/.ssh
+      - /etc/rsync-vps/cron:/home/fxleblanc/cron
+      - /var/data:/var/data
+  tags:
+    - container

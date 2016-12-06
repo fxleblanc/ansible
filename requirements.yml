@@ -2,3 +2,5 @@
   name: docker
 - src: https://github.com/fxleblanc/ansible-pip
   name: pip
+- src: https://github.com/geerlingguy/ansible-role-git
+  name: git
