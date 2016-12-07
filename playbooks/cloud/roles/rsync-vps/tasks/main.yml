@@ -5,7 +5,7 @@
     - ssh
 - name: Create ssh directory
   file:
-    path: /etc/rsync-vps/ssh
+    path: /etc/rsync-{{ remote_name }}/ssh
     state: directory
     mode: 0755
     owner: 1000
@@ -33,14 +33,14 @@
 - name: Copy ssh config
   template:
     src: config.j2
-    dest: /etc/rsync-vps/ssh/config
+    dest: /etc/rsync-{{ remote_name }}/ssh/config
     owner: 1000
     group: 1000
   tags:
     - ssh
 - name: Create cron directory
   file:
-    path: /etc/rsync-vps/cron
+    path: /etc/rsync-{{ remote_name }}/cron
     state: directory
     mode: 0755
     owner: 1000
@@ -50,7 +50,7 @@
 - name: Copy cron file
   template:
     src: sync.j2
-    dest: /etc/rsync-vps/cron/sync
+    dest: /etc/rsync-{{ remote_name }}/cron/sync
     owner: 1000
     group: 1000
   tags:
@@ -79,11 +79,11 @@
     - image
 - name: Start the container
   docker_container:
-    name: rsync-vps
+    name: rsync-{{ remote_name }}
     image: fxleblanc/rsync-vps:1.0
     volumes:
-      - /etc/rsync-vps/ssh:/home/fxleblanc/.ssh
-      - /etc/rsync-vps/cron:/home/fxleblanc/cron
+      - /etc/rsync-{{ remote_name }}/ssh:/home/fxleblanc/.ssh
+      - /etc/rsync-{{ remote_name }}/cron:/home/fxleblanc/cron
       - /var/data:/var/data
   tags:
     - container
