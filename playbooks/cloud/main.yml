@@ -3,4 +3,4 @@
   roles:
     - docker
     - docker-registry
-    - { role: rsync-vps, remote_name: vps1, remote_location: 168.235.64.110 }
+    - { role: rsync-vps, remote_name: vps1, remote_location: 168.235.64.110, data_dir: music }

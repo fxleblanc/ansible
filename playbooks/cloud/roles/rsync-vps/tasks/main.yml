@@ -57,7 +57,7 @@
     - cron
 - name: Create data directory
   file:
-    path: /var/data
+    path: /var/data/{{ data_dir }}
     state: directory
     mode: 0755
     owner: 1000
@@ -84,6 +84,6 @@
     volumes:
       - /etc/rsync-{{ remote_name }}/ssh:/home/fxleblanc/.ssh
       - /etc/rsync-{{ remote_name }}/cron:/home/fxleblanc/cron
-      - /var/data:/var/data
+      - /var/data/{{ data_dir }}:/var/data/{{ data_dir }}
   tags:
     - container
