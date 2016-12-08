@@ -14,7 +14,7 @@
     - ssh
 - name: Copy private key
   copy:
-    dest={{ ssh_config_files.private_key.dest }}
+    dest=/etc/rsync-{{ remote_name }}/ssh/id_rsa
     content={{ ssh_config_files.private_key.content }}
     owner=1000
     group=1000
@@ -23,7 +23,7 @@
     - ssh
 - name: Copy public key
   copy:
-    dest={{ ssh_config_files.public_key.dest }}
+    dest=/etc/rsync-{{ remote_name }}/ssh/id_rsa.pub
     content={{ ssh_config_files.public_key.content }}
     owner=1000
     group=1000
