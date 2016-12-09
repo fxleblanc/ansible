@@ -4,3 +4,4 @@
     - docker
     - docker-registry
     - { role: rsync-vps, remote_name: vps1, remote_location: 168.235.64.110, data_dir: music }
+    - { role: torrent, data_dir: music, instance_name: music }
