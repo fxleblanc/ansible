@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# Main script
+#
+/usr/bin/rsync -rv --progress {{ remote_location }}://home/fxleblanc/downloads/ /var/data/{{ data_dir }}

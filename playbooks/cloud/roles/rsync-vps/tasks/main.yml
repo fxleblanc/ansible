@@ -49,12 +49,21 @@
     - cron
 - name: Copy cron file
   template:
-    src: sync.j2
-    dest: /etc/rsync-{{ remote_name }}/cron/sync
+    src: cron.j2
+    dest: /etc/rsync-{{ remote_name }}/cron/cron
     owner: 1000
     group: 1000
   tags:
     - cron
+- name: Copy script
+  template:
+    src: script.j2
+    dest: /etc/rsync-{{ remote_name }}/cron/script
+    owner: 1000
+    group: 1000
+    mode: "0700"
+  tags:
+    - script
 - name: Create data directory
   file:
     path: /var/data/{{ data_dir }}
@@ -85,5 +94,7 @@
       - /etc/rsync-{{ remote_name }}/ssh:/home/fxleblanc/.ssh
       - /etc/rsync-{{ remote_name }}/cron:/home/fxleblanc/cron
       - /var/data/{{ data_dir }}:/var/data/{{ data_dir }}
+    env:
+      ONE_SHOT: 1
   tags:
     - container
